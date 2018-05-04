@@ -25,7 +25,9 @@ describe('calculo de marcador', function(){
             return puntos + 2;
         } else if (esCorrecta && tiempo <= 10) {
             return puntos + 1;
-        } else if (!esCorrecta && tiempo >=10) {
+        } else if (!esCorrecta && tiempo >10) {
+            return puntos -2;
+        } else if(!esCorrecta && tiempo <=10) {
             return puntos -1;
         }
     }
@@ -38,5 +40,6 @@ describe('calculo de marcador', function(){
 
     it("resta puntos si fallo muy despacio", function() {
         expect(recalcularMarcador(5, false, 12)).toBe(3);
+        expect(recalcularMarcador(3, false, 8)).toBe(1);
     });
 });
