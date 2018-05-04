@@ -39,13 +39,9 @@ function recalcularMarcadorFallando(marcador, tiempo) {
     }
 }
 
-
-//describe('calculo de marcador', function(){
-    //function recalcularMarcador(puntos, esCorrecta, tiempo){
-        //else if (tiempo >= 20) {
-            //return puntos -3;
-        //}
-    //}
+function recalcularSinRespuesta(marcador) {
+    return marcador -3;
+}
 
     it("suma mas puntos si acierta muy rapido", function(){
         expect(recalcularMarcadorAcertando(0, 1)).toBe(2);
@@ -58,7 +54,7 @@ function recalcularMarcadorFallando(marcador, tiempo) {
         expect(recalcularMarcadorFallando(5, 12)).toBe(3);
         expect(recalcularMarcadorFallando(3,  8)).toBe(2);
     });
-    xit("no contestar a la pregunta", function() {
-        expect(recalcularMarcador(6, 23)).toBe(3);
+    it("no contestar a la pregunta", function() {
+        expect(recalcularSinRespuesta(6, 23)).toBe(3);
     });
 
