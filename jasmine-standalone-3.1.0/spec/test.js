@@ -23,35 +23,34 @@
 
 
 describe('calculo de marcador', function(){
-    function recalcularMarcador(puntos, existeRespuesta, esCorrecta, tiempo){
-        if (existeRespuesta && esCorrecta && tiempo <= 2){
+    function recalcularMarcador(puntos, esCorrecta, tiempo){
+        if (esCorrecta && tiempo <= 2){
             return puntos + 2;
-        } else if (existeRespuesta && esCorrecta && tiempo <= 10) {
+        } else if (esCorrecta && tiempo <= 10) {
             return puntos + 1;
-        } else if (existeRespuesta && esCorrecta && tiempo >10) {
+        } else if (esCorrecta && tiempo >10 && tiempo<=20) {
             return puntos;
-        } else if (existeRespuesta && !esCorrecta && tiempo >10) {
+        } else if (!esCorrecta && tiempo >10 && tiempo<=20) {
             return puntos -2;
-        } else if(existeRespuesta && !esCorrecta && tiempo <=10) {
+        } else if(!esCorrecta && tiempo <=10) {
             return puntos -1;
-        } else if (!existeRespuesta && tiempo >= 20) {
+        } else if (tiempo >= 20) {
             return puntos -3;
         }
     }
 
     it("suma mas puntos si acierta muy rapido", function(){
-        expect(recalcularMarcador(0, true, true, 1)).toBe(2);
-        expect(recalcularMarcador(2, true, true, 1)).toBe(4);
-        expect(recalcularMarcador(4, true, true, 5)).toBe(5);
-        expect(recalcularMarcador(5, true, true, 15)).toBe(5);
+        expect(recalcularMarcador(0, true, 1)).toBe(2);
+        expect(recalcularMarcador(2, true, 1)).toBe(4);
+        expect(recalcularMarcador(4, true, 5)).toBe(5);
+        expect(recalcularMarcador(5, true, 15)).toBe(5);
     });
 
     it("resta puntos si fallo muy despacio", function() {
-        expect(recalcularMarcador(5, true, false, 12)).toBe(3);
-        expect(recalcularMarcador(3, true, false, 8)).toBe(2);
+        expect(recalcularMarcador(5, false, 12)).toBe(3);
+        expect(recalcularMarcador(3, false, 8)).toBe(2);
     });
     it("no contestar a la pregunta", function() {
-        expect(recalcularMarcador(2, false, true, 23)).toBe(-1);
-        expect(recalcularMarcador(2, false, false, 23)).toBe(-1);
+        expect(recalcularMarcador(6, true, 23)).toBe(3);
     });
 });
