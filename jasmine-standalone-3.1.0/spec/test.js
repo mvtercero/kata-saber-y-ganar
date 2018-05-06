@@ -21,40 +21,97 @@
 *
 * */
 
-function recalcularMarcadorAcertando(marcador, tiempo) {
-    if (tiempo <= 2){
-        return marcador + 2;
-    } if (tiempo <= 10) {
-        return marcador + 1;
-    } if (tiempo >10 && tiempo<=20) {
-        return marcador;
+
+describe("recalcular marcador", function() {
+    
+    function recalcularMarcadorAcertando(marcador, tiempo) {
+        if (tiempo <= 2){
+            return marcador + 2;
+        } if (tiempo <= 10) {
+            return marcador + 1;
+        } if (tiempo >10 && tiempo<=20) {
+            return marcador;
+        }
     }
-}
-
-function recalcularMarcadorFallando(marcador, tiempo) {
-    if (tiempo >10 && tiempo<=20) {
-        return marcador -2;
-    } if(tiempo <=10) {
-        return marcador -1;
+    
+    function recalcularMarcadorFallando(marcador, tiempo) {
+        if (tiempo >10 && tiempo<=20) {
+            return marcador -2;
+        } if(tiempo <=10) {
+            return marcador -1;
+        }
     }
-}
-
-function recalcularSinRespuesta(marcador) {
-    return marcador -3;
-}
-
-    it("suma mas puntos si acierta muy rapido", function(){
-        expect(recalcularMarcadorAcertando(0, 1)).toBe(2);
-        expect(recalcularMarcadorAcertando(2, 1)).toBe(4);
-        expect(recalcularMarcadorAcertando(4, 5)).toBe(5);
-        expect(recalcularMarcadorAcertando(5, 15)).toBe(5);
+    
+    function recalcularSinRespuesta(marcador) {
+        return marcador -3;
+    }
+    
+        it("suma mas puntos si acierta muy rapido", function(){
+            expect(recalcularMarcadorAcertando(0, 1)).toBe(2);
+            expect(recalcularMarcadorAcertando(2, 1)).toBe(4);
+            expect(recalcularMarcadorAcertando(4, 5)).toBe(5);
+            expect(recalcularMarcadorAcertando(5, 15)).toBe(5);
+        });
+    
+        it("resta puntos si fallo muy despacio", function() {
+            expect(recalcularMarcadorFallando(5, 12)).toBe(3);
+            expect(recalcularMarcadorFallando(3,  8)).toBe(2);
+        });
+        it("no contestar a la pregunta", function() {
+            expect(recalcularSinRespuesta(6, 23)).toBe(3);
+        });
     });
 
-    it("resta puntos si fallo muy despacio", function() {
-        expect(recalcularMarcadorFallando(5, 12)).toBe(3);
-        expect(recalcularMarcadorFallando(3,  8)).toBe(2);
+/* TO DO - list
+    Si el usuario dice c la respuesta es correcta - true
+    Si el usuario dice a la respuesta es incorrecta - false
+    Si el usuario dice b la respuesta es incorrecta - false
+    Si el usuario escribe 'Madrid' la respuesta es incorrecta -false
+    Si el usuario escribe un número la respuesta es incorrecta -false
+* */
+
+
+    var questions = {
+        question: "¿Cuaĺ es la capital de Eslovenia?",
+        answers: {
+            a: 'Praga', 
+            b: 'Berlín', 
+            c: 'Ljubljana' 
+            }, 
+        };
+
+
+    var correctAnswer = questions.answers.c;
+
+    function isCorrect(userAnswer, correctAnswer) {
+        if (userAnswer === correctAnswer) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+
+describe("comprobar respuestas", function() {
+    it("si el usuario dice c la respuesta es correcta", function() {
+        expect(isCorrect('Ljubljana', correctAnswer)).toBe(true);
     });
-    it("no contestar a la pregunta", function() {
-        expect(recalcularSinRespuesta(6, 23)).toBe(3);
+
+    it("si el usuario dice a la respuesta es incorrecta", function() {
+        expect(isCorrect('Berlín', correctAnswer)).toBe(false);
     });
+
+    it("si el usuario dice b la respuesta es incorrecta", function() {
+        expect(isCorrect('Praga', correctAnswer)).toBe(false);
+    });
+
+    it("si el usuario escribe Madrid la respuesta es incorrecta", function() {
+        expect(isCorrect('Madrid', correctAnswer)).toBe(false);
+    });
+
+    it("si el usuario escribe un número la respuesta es incorrecta", function() {
+        expect(isCorrect(9, correctAnswer)).toBe(false);
+    });
+});
+
 
