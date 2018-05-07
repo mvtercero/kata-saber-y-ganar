@@ -47,8 +47,8 @@ function isCorrect(questionId, correctAnswer, userAnswer){
 
 var buttonNextQuestion = document.querySelector(".buttonNextQuestion");
 
+let i = 0;
 function getQuestion(){
-  let i = 0;
     if(i < fullQuestionData.length) {
       console.log(fullQuestionData[i].question);
       i++;
