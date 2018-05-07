@@ -46,14 +46,46 @@ function isCorrect(questionId, correctAnswer, userAnswer){
 }
 
 var buttonNextQuestion = document.querySelector(".buttonNextQuestion");
+var answersList = document.querySelector(".answers-list");
 
 let i = 0;
+let answers = "";
 function getQuestion(){
     if(i < fullQuestionData.length) {
-      console.log(fullQuestionData[i].question);
+      document.querySelector(".question-title").innerHTML = fullQuestionData[i].question;
       i++;
+
+      for (let i = 0; i < fullQuestionData.length; i++) {
+        answers = fullQuestionData[i].answers;
+        console.log(answers);
+        answersList +=  
+        `<li>
+          <input type="radio" class="input-check" id="-${i}"}>
+          <span>${answers}</span>
+        </li>`
+      }
     }
 };
 
+
 buttonNextQuestion.addEventListener("click", getQuestion);
 
+
+
+// function saveCurrentTasks() {
+//   var currentTasks = "";
+
+//   for (var i = 0; i < currentTasksList.length; i++) {
+//     console.log(i);
+//     currentTasks = currentTasksList[i];
+
+//   list.innerHTML += (
+//   `<li class="task">
+//     <label for="current-task-${i}" class="label-text">
+//       <input type="checkbox" class="input-check" id="current-task-${i}" name="check" value="1" ${currentTasks.checked ? 'checked':''}>
+//       <span class="strike-text">${currentTasks.text}</span>
+//     </label>
+//   </li>`
+//     );
+//   }
+// }
