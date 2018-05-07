@@ -70,48 +70,16 @@ describe("recalcular marcador", function() {
     Si el usuario escribe un número la respuesta es incorrecta -false
 * */
 
-
-    var questions = {
-        question: "¿Cuaĺ es la capital de Eslovenia?",
-        answers: {
-            a: 'Praga', 
-            b: 'Berlín', 
-            c: 'Ljubljana' 
-            }, 
-        };
-
-
-    var correctAnswer = questions.answers.c;
-
-    function isCorrect(userAnswer, correctAnswer) {
-        if (userAnswer === correctAnswer) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+describe("The scoreboard", function(){
     
-
-describe("comprobar respuestas", function() {
-    it("si el usuario dice c la respuesta es correcta", function() {
-        expect(isCorrect('Ljubljana', correctAnswer)).toBe(true);
+    it("compares correctAnswer and userAnswer", function(){
+      userAnswer = fullQuestionData[0].answers[1].id;
+      expect(isCorrect(1, correctAnswer, userAnswer)).toBe(false);
+      userAnswer = fullQuestionData[0].answers[0].id;
+      expect(isCorrect(1, correctAnswer, userAnswer)).toBe(true);
+      userAnswer = fullQuestionData[2].answers[1].id;
+      expect(isCorrect(3, correctAnswer, userAnswer)).toBe(false);
+    
     });
-
-    it("si el usuario dice a la respuesta es incorrecta", function() {
-        expect(isCorrect('Berlín', correctAnswer)).toBe(false);
     });
-
-    it("si el usuario dice b la respuesta es incorrecta", function() {
-        expect(isCorrect('Praga', correctAnswer)).toBe(false);
-    });
-
-    it("si el usuario escribe Madrid la respuesta es incorrecta", function() {
-        expect(isCorrect('Madrid', correctAnswer)).toBe(false);
-    });
-
-    it("si el usuario escribe un número la respuesta es incorrecta", function() {
-        expect(isCorrect(9, correctAnswer)).toBe(false);
-    });
-});
-
 

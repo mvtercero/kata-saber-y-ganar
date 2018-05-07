@@ -1,6 +1,59 @@
-var questionsTest = [
-    {question: '¿Cuál es el color de la esperanza?', answer: {a: 'verde', b: 'azul', c: 'beige' }, correctAnswer: 'a'},
-    {question: '¿Cuál es la capital de Eslovenia?', answer: {a: 'Praga', b: 'Berlín', c: 'Ljubljana' }, correctAnswer: 'c'},
-    {question: '¿Dónde murió Federico García Lorca?', answer: {a: 'Córdoba', b: 'Granada', c: 'Sevilla' }, correctAnswer: 'b'},
-    {question: '¿Qué película ganó el Oscar en 2017?', answer: {a: 'Moonlight', b: 'La,la,land', c:'Tres anuncios a las afueras' }, correctAnswer: 'a'}
-  ];
+"use strict";
+
+const fullQuestionData = [
+  {
+    questionId: 1,
+    question: '¿Cuál es la capital de Zambia?',
+    answers: [
+      {id: 1, value: 'Lusaka'},
+      {id: 2, value: 'Madrid'},
+      {id: 1, value: 'Harare'}
+    ],
+    correctAnswer: {id: 1}
+  },
+
+  {
+    questionId: 2,
+    question: '¿Cuántos años tiene Celio?',
+    answers: [
+      {id: 1, value: 18},
+      {id: 2, value: 'No lo sabe ni ella'},
+      {id: 1, value: 103}
+    ],
+    correctAnswer: { 
+      id: 2
+    }
+  },
+  {
+    questionId: 3,
+    question: '¿Cuál es el nombre de Freud?',
+    answers: [
+      {id: 1, value: 'Adolf'},
+      {id: 2, value: 'Sefarad'},
+      {id: 1, value: 'Sigmund'}
+    ],
+    correctAnswer: {id: 3}
+  }
+];
+
+var correctAnswer = fullQuestionData[0].correctAnswer.id;
+var questionId = fullQuestionData[0].questionId;
+ 
+function isCorrect(questionId, correctAnswer, userAnswer){
+  if (correctAnswer === userAnswer){
+    return true;
+  } else return false;
+}
+
+var buttonNextQuestion = document.querySelector(".buttonNextQuestion");
+
+function getQuestion() {
+  for (let index = 0; index < fullQuestionData.length; index++) {
+    fullQuestionData[index];
+  }
+}
+
+
+
+buttonNextQuestion.addEventListener("click", getQuestion);
+
