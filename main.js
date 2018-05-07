@@ -56,11 +56,11 @@ function getQuestion(){
       i++;
 
       for (let i = 0; i < fullQuestionData.length; i++) {
-        answers = fullQuestionData[i].answers;
+        answers = fullQuestionData[i].answers[i].value;
         console.log(answers);
-        answersList +=  
+        answersList.innerHTML +=  
         `<li>
-          <input type="radio" class="input-check" id="-${i}"}>
+          <input type="radio">
           <span>${answers}</span>
         </li>`
       }
