@@ -7,7 +7,7 @@ const fullQuestionData = [
     answers: [
       {id: 1, value: 'Lusaka'},
       {id: 2, value: 'Madrid'},
-      {id: 1, value: 'Harare'}
+      {id: 3, value: 'Harare'}
     ],
     correctAnswer: {id: 1}
   },
@@ -18,7 +18,7 @@ const fullQuestionData = [
     answers: [
       {id: 1, value: 18},
       {id: 2, value: 'No lo sabe ni ella'},
-      {id: 1, value: 103}
+      {id: 3, value: 103}
     ],
     correctAnswer: { 
       id: 2
@@ -30,7 +30,7 @@ const fullQuestionData = [
     answers: [
       {id: 1, value: 'Adolf'},
       {id: 2, value: 'Sefarad'},
-      {id: 1, value: 'Sigmund'}
+      {id: 3, value: 'Sigmund'}
     ],
     correctAnswer: {id: 3}
   }
@@ -53,10 +53,9 @@ let answers = "";
 function getQuestion(){
     if(i < fullQuestionData.length) {
       document.querySelector(".question-title").innerHTML = fullQuestionData[i].question;
-      i++;
-
-      for (let i = 0; i < fullQuestionData.length; i++) {
-        answers = fullQuestionData[i].answers[i].value;
+      
+      for (let a = 0; a < fullQuestionData[i].answers.length; a++) {
+        answers = fullQuestionData[i].answers[a].value;
         console.log(answers);
         answersList.innerHTML +=  
         `<li>
@@ -64,6 +63,7 @@ function getQuestion(){
           <span>${answers}</span>
         </li>`
       }
+      i++;
     }
 };
 
@@ -72,20 +72,3 @@ buttonNextQuestion.addEventListener("click", getQuestion);
 
 
 
-// function saveCurrentTasks() {
-//   var currentTasks = "";
-
-//   for (var i = 0; i < currentTasksList.length; i++) {
-//     console.log(i);
-//     currentTasks = currentTasksList[i];
-
-//   list.innerHTML += (
-//   `<li class="task">
-//     <label for="current-task-${i}" class="label-text">
-//       <input type="checkbox" class="input-check" id="current-task-${i}" name="check" value="1" ${currentTasks.checked ? 'checked':''}>
-//       <span class="strike-text">${currentTasks.text}</span>
-//     </label>
-//   </li>`
-//     );
-//   }
-// }
