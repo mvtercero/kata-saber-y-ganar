@@ -47,13 +47,13 @@ function isCorrect(questionId, correctAnswer, userAnswer){
 
 var buttonNextQuestion = document.querySelector(".buttonNextQuestion");
 
-function getQuestion() {
-  for (let index = 0; index < fullQuestionData.length; index++) {
-    fullQuestionData[index];
-  }
-}
-
-
+function getQuestion(){
+  let i = 0;
+    if(i < fullQuestionData.length) {
+      console.log(fullQuestionData[i].question);
+      i++;
+    }
+};
 
 buttonNextQuestion.addEventListener("click", getQuestion);
 
