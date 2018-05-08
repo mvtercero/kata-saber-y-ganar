@@ -46,29 +46,23 @@ function isCorrect(questionId, correctAnswer, userAnswer){
 }
 
 var buttonNextQuestion = document.querySelector(".buttonNextQuestion");
-var answersList = document.querySelector(".answers-list");
+var answers = document.querySelectorAll(".answers");
 
 let i = 0;
-let answers = "";
-function getQuestion(){
+function printQuestion(){
     if(i < fullQuestionData.length) {
       document.querySelector(".question-title").innerHTML = fullQuestionData[i].question;
-      
+
       for (let a = 0; a < fullQuestionData[i].answers.length; a++) {
-        answers = fullQuestionData[i].answers[a].value;
+        answers[a].innerHTML = fullQuestionData[i].answers[a].value;
         console.log(answers);
-        answersList.innerHTML +=  
-        `<li>
-          <input type="radio">
-          <span>${answers}</span>
-        </li>`
-      }
+        }
       i++;
     }
 };
 
 
-buttonNextQuestion.addEventListener("click", getQuestion);
+buttonNextQuestion.addEventListener("click", printQuestion);
 
 
 
