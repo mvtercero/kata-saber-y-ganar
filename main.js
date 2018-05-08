@@ -36,14 +36,7 @@ const fullQuestionData = [
   }
 ];
 
-var correctAnswer = fullQuestionData[0].correctAnswer.id;
-var questionId = fullQuestionData[0].questionId;
- 
-function isCorrect(questionId, correctAnswer, userAnswer){
-  if (correctAnswer === userAnswer){
-    return true;
-  } else return false;
-}
+
 
 var buttonNextQuestion = document.querySelector(".buttonNextQuestion");
 var answers = document.querySelectorAll(".answers");
@@ -55,14 +48,48 @@ function printQuestion(){
 
       for (let a = 0; a < fullQuestionData[i].answers.length; a++) {
         answers[a].innerHTML = fullQuestionData[i].answers[a].value;
-        console.log(answers);
         }
-      i++;
     }
 };
 
+buttonNextQuestion.addEventListener("click", printQuestion); 
 
-buttonNextQuestion.addEventListener("click", printQuestion);
+function isCorrect(questionsList, answerUserList){
+  //result.classList.remove("hidden");
+  
+  if(questionsList.questionId !== answerUserList.id){
+    console.log("Mal!");
+  }
+  if(questionsList.correctAnswer.id !== answerUserList.answerId){
+    console.log("Mal!");
+  }else{
+    console.log("Bien!");
+  }
+ 
+}
+
+var answerUser = [];
+var radios = document.querySelectorAll('.input-answers');
+console.log(radios);
+var sendButton = document.querySelector(".sendButton");
+function getCheckedValue() {
+  for( var x = 0; x < radios.length; x++ ) {  
+    if( radios[x].checked) {
+        answerUser.push({
+          id : i,
+          answerId: x 
+        });
+        console.log(answerUser[i].id);
+        console.log(answerUser[i].answerId);
+        isCorrect(fullQuestionData[i],answerUser[i]);
+      }
+    }
+  i++;
+  printQuestion();
+}
+
+sendButton.addEventListener("click", getCheckedValue);
+
 
 
 
