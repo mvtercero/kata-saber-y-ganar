@@ -39,28 +39,68 @@ const fullQuestionData = [
 
 
 var buttonNextQuestion = document.querySelector(".buttonNextQuestion");
-var answers = document.querySelectorAll(".answers");
+var questionContainer = document.querySelector(".question-container");
+var questionText = document.querySelector(".question-text");
+var questionId = document.getElementById("question-id");
+var answersList = document.querySelector(".answers-list");
+var answerContainer = document.querySelector(".answer-container");
 
-let i = 0;
+
+
+let currentQuestionIndex = 0;
 function printQuestion(){
-    if(i < fullQuestionData.length) {
-      document.querySelector(".question-title").innerHTML = fullQuestionData[i].question;
 
-      for (let a = 0; a < fullQuestionData[i].answers.length; a++) {
-        answers[a].innerHTML = fullQuestionData[i].answers[a].value;
-        }
-    }
+    if(currentQuestionIndex < fullQuestionData.length) {
+      questionText = fullQuestionData[currentQuestionIndex].question;
+      questionId = fullQuestionData[currentQuestionIndex].questionId;
+
+      questionContainer.innerHTML =
+      `<div id="${questionId}">${questionText}</div>`
+
+      for (let answerIndex = 0; answerIndex < fullQuestionData[currentQuestionIndex].answers.length; answerIndex++) {
+        var answersText = fullQuestionData[currentQuestionIndex].answers[answerIndex].value;
+        var answerId = fullQuestionData[currentQuestionIndex].answers[answerIndex].id;
+
+        answersList.innerHTML +=          
+        `<li class= "answer-container">
+        <input type="radio" name="answer" data-id=${answerId} class="input-answer">
+        <label>${answersText}</label>
+        </li>`
+      }
+
+    // var removeQuestion = document.querySelector(".answers-list");
+    // removeQuestion.parentNode.removeChild(removeQuestion);  
+
+    currentQuestionIndex++;
+
+  }
 };
 
+//window.addEventListener('load',printQuestion);
 buttonNextQuestion.addEventListener("click", printQuestion); 
 
-function isCorrect(questionsList, answerUserList){
+var userAnswer = [];
+function getCheckedAnswer() {
+  var radios = document.querySelectorAll(".input-answer");
+  for( var currentRadioIndex = 0; currentRadioIndex < radios.length; currentRadioIndex++ ) {  
+    if( radios[currentRadioIndex].checked) {
+        var answerId= radios[currentRadioIndex].dataset.id;
+        userAnswer.push({
+          answerId: answerId 
+        });
+    }
+  }
+  console.log(userAnswer);
+}
+
+
+function isCorrect(fullQuestionData, userAnswer){
   //result.classList.remove("hidden");
   
-  if(questionsList.questionId !== answerUserList.id){
+  if(fullQuestionData.questionId !== userAnswer.answerId){
     console.log("Mal!");
   }
-  if(questionsList.correctAnswer.id !== answerUserList.answerId){
+  if(fullQuestionData.correctAnswer.id !== userAnswer.answerId){
     console.log("Mal!");
   }else{
     console.log("Bien!");
@@ -68,27 +108,13 @@ function isCorrect(questionsList, answerUserList){
  
 }
 
-var answerUser = [];
-var radios = document.querySelectorAll('.input-answers');
-console.log(radios);
-var sendButton = document.querySelector(".sendButton");
-function getCheckedValue() {
-  for( var x = 0; x < radios.length; x++ ) {  
-    if( radios[x].checked) {
-        answerUser.push({
-          id : i,
-          answerId: x 
-        });
-        console.log(answerUser[i].id);
-        console.log(answerUser[i].answerId);
-        isCorrect(fullQuestionData[i],answerUser[i]);
-      }
-    }
-  i++;
-  printQuestion();
-}
 
-sendButton.addEventListener("click", getCheckedValue);
+var sendButton = document.querySelector(".sendButton");
+sendButton.addEventListener("click", getCheckedAnswer);
+sendButton.addEventListener("click", isCorrect);
+
+
+
 
 
 
