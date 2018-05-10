@@ -5,11 +5,11 @@ const fullQuestionData = [
     questionId: 1,
     question: '¿Cuál es la capital de Zambia?',
     answers: [
-      {id: 1, value: 'Lusaka'},
-      {id: 2, value: 'Madrid'},
+      {id: 1, value: 'Madrid'},
+      {id: 2, value: 'Lusaka'},
       {id: 3, value: 'Harare'}
     ],
-    correctAnswer: {id: 1}
+    correctAnswer: {id: 2}
   },
 
   {
@@ -37,81 +37,107 @@ const fullQuestionData = [
 ];
 
 
-
+var startButton        = document.querySelector(".play-game");
 var buttonNextQuestion = document.querySelector(".buttonNextQuestion");
-var questionContainer = document.querySelector(".question-container");
-var questionText = document.querySelector(".question-text");
-var questionId = document.getElementById("question-id");
-var answersList = document.querySelector(".answers-list");
-var answerContainer = document.querySelector(".answer-container");
+var questionContainer  = document.querySelector(".question-container");
+var questionText       = document.querySelector(".question-text");
+var questionId         = document.getElementById("question-id");
+var answersList        = document.querySelector(".answers-list");
+var answerContainer    = document.querySelector(".answer-container");
+var playContainer      = document.querySelector(".play-container");
 
+function playGame() {
+  playContainer.classList.toggle('hidden');
+  startButton.classList.toggle('hidden'); 
+  printQuestion();
+}
 
+startButton.addEventListener('click', playGame);
 
 let currentQuestionIndex = 0;
 function printQuestion(){
-
     if(currentQuestionIndex < fullQuestionData.length) {
       questionText = fullQuestionData[currentQuestionIndex].question;
       questionId = fullQuestionData[currentQuestionIndex].questionId;
-
+      var correctAnswerId = fullQuestionData[currentQuestionIndex].correctAnswer.id;
+      
+  
       questionContainer.innerHTML =
-      `<div id="${questionId}">${questionText}</div>`
+      `<div class="questions-class" id="${questionId}">${questionText}</div>`
+      // console.log(questionContainer.getAttribute("id"));
+      // console.log(questionId);
 
       for (let answerIndex = 0; answerIndex < fullQuestionData[currentQuestionIndex].answers.length; answerIndex++) {
         var answersText = fullQuestionData[currentQuestionIndex].answers[answerIndex].value;
         var answerId = fullQuestionData[currentQuestionIndex].answers[answerIndex].id;
 
-        answersList.innerHTML +=          
-        `<li class= "answer-container">
-        <input type="radio" name="answer" data-id=${answerId} class="input-answer">
-        <label>${answersText}</label>
-        </li>`
+        questionContainer.innerHTML +=          
+         `<div class="answer-container">
+          <input type="radio" name="answer" data-id=${answerId} class="input-answer">
+          <label>${answersText}</label>
+          </div>
+          `
       }
-
-    // var removeQuestion = document.querySelector(".answers-list");
-    // removeQuestion.parentNode.removeChild(removeQuestion);  
-
+  
     currentQuestionIndex++;
-
   }
 };
 
 //window.addEventListener('load',printQuestion);
 buttonNextQuestion.addEventListener("click", printQuestion); 
 
-var userAnswer = [];
+
 function getCheckedAnswer() {
   var radios = document.querySelectorAll(".input-answer");
+  let questionsClassId =  document.querySelector('.questions-class').id;
+
+  var found = fullQuestionData.find(function(question) {
+    if (question.questionId == questionsClassId) {
+       return question;
+    }
+  });
+ 
+  
   for( var currentRadioIndex = 0; currentRadioIndex < radios.length; currentRadioIndex++ ) {  
     if( radios[currentRadioIndex].checked) {
-        var answerId= radios[currentRadioIndex].dataset.id;
-        userAnswer.push({
-          answerId: answerId 
-        });
+      var userAnswerId = radios[currentRadioIndex].dataset.id;
+      var resultText = document.querySelector(".result-text");
+      if (found.correctAnswer.id == userAnswerId) {
+        resultText.innerHTML = "Bien!";
+      } else {
+        resultText.innerHTML = "Mal!";
+      }
     }
   }
-  console.log(userAnswer);
-}
-
-
-function isCorrect(fullQuestionData, userAnswer){
-  //result.classList.remove("hidden");
-  
-  if(fullQuestionData.questionId !== userAnswer.answerId){
-    console.log("Mal!");
-  }
-  if(fullQuestionData.correctAnswer.id !== userAnswer.answerId){
-    console.log("Mal!");
-  }else{
-    console.log("Bien!");
-  }
- 
 }
 
 
 var sendButton = document.querySelector(".sendButton");
 sendButton.addEventListener("click", getCheckedAnswer);
-sendButton.addEventListener("click", isCorrect);
+
+
+var timeLeft = 20;
+var timer = document.querySelector('.timer');
+var timerId = setInterval(countdown, 1000);
+
+function countdown() {
+  if (timeLeft == 0) {
+    clearTimeout(timerId);
+    printQuestion();
+  } else {
+    timer.innerHTML = timeLeft + ' seconds remaining';
+    timeLeft--;
+  }
+}
+
+
+// var timeleft = 20;
+// var downloadTimer = setInterval(function(){
+//   document.getElementById("progressBar").value = 20 - --timeleft;
+//   if(timeleft <= 0)
+//     clearInterval(downloadTimer);
+// },2000);
+
 
 
 

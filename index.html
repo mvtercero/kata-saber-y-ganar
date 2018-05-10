@@ -10,16 +10,21 @@
 <body>
     <h1>Saber y ganar</h1>
     <h2>Responde mejor y más rápido que los demás</h2>
+    
     <section>
+    <div class="play-container hidden">
         <div class="question-container">
-           <div id="question-id" class="question-text"></div>
+            
+            <progress value="0" max="10" id="progressBar"></progress>
+            <div class="timer"></div>
         </div>
-           <ul class="answers-list">
-
-           </ul>
         <button class="sendButton">Enviar respuesta</button>
         <button class="buttonNextQuestion">Siguiente pregunta</button>
+        </div>
+    </div>
+    <button class="play-game">¡Pulsa para empezar!</button>
     </section>
+
     <script src="main.js"></script>
 </body>
 </html>
