@@ -1,5 +1,18 @@
 function application() {
-  "use strict";
+  var fullQuestionData = [];
+  var totalTime = 20;
+  var timerId;
+  var timer;
+  var startButton;
+  var playContainer;
+  let currentQuestionIndex = 0;
+  var buttonNextQuestion;
+  var questionContainer;
+  var questionText;
+  var questionId;
+  var answersList;
+  var answerContainer;
+  var sendButton;
 
   function getQuestionsData(callback) {
     const fullQuestionData = [
@@ -38,23 +51,7 @@ function application() {
       }
     ];
     callback(fullQuestionData); 
-  }
-
-  var fullQuestionData = [];
-  var totalTime = 20;
-  var timerId;
-  var timer;
-  var startButton;
-  var playContainer;
-  let currentQuestionIndex = 0;
-  var buttonNextQuestion;
-  var questionContainer;
-  var questionText;
-  var questionId;
-  var answersList;
-  var answerContainer;
-  var sendButton;
-  
+  }  
 
   function start() {
     startButton = document.querySelector(".play-game");
@@ -72,20 +69,38 @@ function application() {
 
     getQuestionsData(function (data) {
       fullQuestionData = data;
-      timerId = setInterval(countdown, 1000);
-      timer = document.querySelector('.timer');      
+      startGame();
     });
   }
 
+   function startGame() {
+    timerId = setInterval(function(){
+      countdown(timeOut, timeChanged) 
+    }, 1000);    
+   }
+  
+
+  function timeOut() {
+    printQuestion();
+  }
+
+  function timeChanged() {
+    timer = document.querySelector('.timer'); 
+    timer.innerHTML = totalTime + ' seconds remaining'; 
+  }
+
+
+
     //CONTADOR DE TIEMPO
     
-    function countdown() {
-      if (totalTime == 0) {
+    function countdown(onTimeOut, onTimeChanged) {
+      totalTime--;
+      onTimeChanged();
+      if (totalTime === 0) {
         clearTimeout(timerId);
-      } else {
-        timer.innerHTML = totalTime + ' seconds remaining';
-        totalTime--;
-      }
+        onTimeOut();
+        
+      } 
     }
 
   
