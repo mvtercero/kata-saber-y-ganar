@@ -41,22 +41,55 @@ function application() {
   }
 
   var fullQuestionData = [];
-  getQuestionsData(function (data) {
-    fullQuestionData = data;
-});
+  var totalTime = 20;
+  var timerId;
+  var timer;
+  var startButton;
+  var playContainer;
+  let currentQuestionIndex = 0;
+  var buttonNextQuestion;
+  var questionContainer;
+  var questionText;
+  var questionId;
+  var answersList;
+  var answerContainer;
+  var sendButton;
   
+
+  function start() {
+    startButton = document.querySelector(".play-game");
+    startButton.addEventListener('click', playGame);
+    playContainer      = document.querySelector(".play-container");
+    buttonNextQuestion = document.querySelector(".buttonNextQuestion");
+    questionContainer  = document.querySelector(".question-container");
+    questionText       = document.querySelector(".question-text");
+    questionId         = document.getElementById("question-id");
+    answersList        = document.querySelector(".answers-list");
+    answerContainer    = document.querySelector(".answer-container");
+    sendButton         = document.querySelector(".sendButton");
+    buttonNextQuestion.addEventListener("click", printQuestion); 
+    sendButton.addEventListener("click", getCheckedAnswer);
+
+    getQuestionsData(function (data) {
+      fullQuestionData = data;
+      timerId = setInterval(countdown, 1000);
+      timer = document.querySelector('.timer');      
+    });
+  }
+
+    //CONTADOR DE TIEMPO
+    
+    function countdown() {
+      if (totalTime == 0) {
+        clearTimeout(timerId);
+      } else {
+        timer.innerHTML = totalTime + ' seconds remaining';
+        totalTime--;
+      }
+    }
+
   
-  var startButton        = document.querySelector(".play-game");
-  startButton.addEventListener('click', playGame);
-  var buttonNextQuestion = document.querySelector(".buttonNextQuestion");
-  var questionContainer  = document.querySelector(".question-container");
-  var questionText       = document.querySelector(".question-text");
-  var questionId         = document.getElementById("question-id");
-  var answersList        = document.querySelector(".answers-list");
-  var answerContainer    = document.querySelector(".answer-container");
-  var playContainer      = document.querySelector(".play-container");
-  var sendButton         = document.querySelector(".sendButton");
-  
+  //Botón de inicio del juego
   
   function playGame() {
     playContainer.classList.toggle('hidden');
@@ -64,7 +97,8 @@ function application() {
     printQuestion();
   }
 
-  let currentQuestionIndex = 0;
+  //Botón siguiente pregunta
+
   function printQuestion(){
       if(currentQuestionIndex < fullQuestionData.length) {
         questionText = fullQuestionData[currentQuestionIndex].question;
@@ -74,8 +108,6 @@ function application() {
     
         questionContainer.innerHTML =
         `<div class="questions-class" id="${questionId}">${questionText}</div>`
-        // console.log(questionContainer.getAttribute("id"));
-        // console.log(questionId);
   
         for (let answerIndex = 0; answerIndex < fullQuestionData[currentQuestionIndex].answers.length; answerIndex++) {
           var answersText = fullQuestionData[currentQuestionIndex].answers[answerIndex].value;
@@ -93,9 +125,8 @@ function application() {
     }
   };
   
-  buttonNextQuestion.addEventListener("click", printQuestion); 
-  
-  
+  //Comprobar la respuesta
+
   function getCheckedAnswer() {
     var radios = document.querySelectorAll(".input-answer");
     let questionsClassId =  document.querySelector('.questions-class').id;
@@ -119,24 +150,10 @@ function application() {
       }
     }
   }
-  
-  sendButton.addEventListener("click", getCheckedAnswer);
-  
-  
-  var totalTime = 20;
-  var timer = document.querySelector('.timer');
-  var setInterval = setInterval(countdown, 1000);
-  
-  function countdown(onTimeout ) {
-    if (totalTime == 0) {
-      clearTimeout(setInterval);
-      onTimeout();
-    } else {
-      timer.innerHTML = totalTime + ' seconds remaining';
-      totalTime--;
-    }
-  }
-  
+
+  return {
+    start: start
+  };
 }
 
 
